@@ -50,7 +50,7 @@ export class View extends React.Component {
 					key={index}
 					onClick={() => this.play(index)}>
 					<div className="row">
-						<span>{index + 1}</span>
+						<span className="number">{index + 1}</span>
 						<span>{song.name}</span>
 					</div>
 				</li>
@@ -67,7 +67,7 @@ export class View extends React.Component {
 					<button
 						ref={element => (this.playButton = element)}
 						onClick={() => this.play(this.state.currentIndex)}>
-						<i className="fa fa-play " aria-hidden="true" />
+						<i className="fa fa-play" aria-hidden="true" />
 					</button>
 					<button
 						ref={element => (this.pauseButton = element)}
