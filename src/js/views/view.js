@@ -32,10 +32,14 @@ export class View extends React.Component {
 		};
 	}
 
+	async change(i) {
+		await this.setState({ currentIndex: i });
+	}
+
 	render() {
 		const liList = this.state.songs.map((song, index) => {
 			return (
-				<li key={index} onClick={() => this.setState({currentIndex : index})}>
+				<li key={index} onClick={() => this.change(index)}>
 					<span>{index + 1}</span>
 					<span>{song.title}</span>
 				</li>
