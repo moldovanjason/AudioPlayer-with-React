@@ -35,7 +35,7 @@ export class View extends React.Component {
 	render() {
 		const liList = this.state.songs.map((song, index) => {
 			return (
-				<li key={index}>
+				<li key={index} onClick={() => this.setState({currentIndex : index})}>
 					<span>{index + 1}</span>
 					<span>{song.title}</span>
 				</li>
@@ -45,7 +45,7 @@ export class View extends React.Component {
 			<>
 				<audio controls>
 					<source
-						src="https://assets.breatheco.de/apis/sound/files/cartoons/songs/south-park.mp3"
+						src={this.state.songs[this.state.currentIndex].url}
 						type="audio/mp3"
 					/>
 				</audio>
