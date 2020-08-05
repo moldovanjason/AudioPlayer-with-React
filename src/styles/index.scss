@@ -1,3 +1,37 @@
+
+.page {
+    text-align: center;
+    // margin:50px;
+}
+
+.body{
+    list-style: none;
+}
+.row:hover{
+    border-bottom: 1px solid rgb(68, 68, 68)
+}
+.row span{
+    margin:6px;
+    text-align: center;
+    font-size: 20px;
+    font-weight: bold;
+    color:white;
+}
+
+.allRows{
+    margin:0 auto;
+    width:275px;
+}
+
+.wholePage{
+    background: rgb(37, 37, 37);
+    padding:40px;
+}
+
+
+
+
+
 @import "~bootstrap/scss/bootstrap.scss";
 
 /* 

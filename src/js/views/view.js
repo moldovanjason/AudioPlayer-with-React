@@ -9,30 +9,15 @@ export class View extends React.Component {
 
 		this.state = {
 			currentIndex: 0,
-			songs: [
-				{
-					title: "South Park",
-					id: "south-park",
-					author: "Kyle",
-					url:
-						"https://assets.breatheco.de/apis/sound/files/cartoons/songs/south-park.mp3"
-				},
-				{
-					title: "Thunder Cats",
-					id: "thundercats",
-					author: "Moonra",
-					url:
-						"https://assets.breatheco.de/apis/sound/files/cartoons/songs/thundercats.mp3"
-				},
-				{
-					title: "X-Men",
-					id: "x-men",
-					author: "Profesor",
-					url:
-						"https://assets.breatheco.de/apis/sound/files/cartoons/songs/x-men.mp3"
-				}
-			]
+			songs: []
 		};
+	}
+
+	componentDidMount() {
+		this.pauseButton.style.display = "none";
+		fetch("https://assets.breatheco.de/apis/sound/songs")
+			.then(response => response.json())
+			.then(songs => this.setState({ songs }));
 	}
 
 	changeTrack(i) {
@@ -44,7 +29,7 @@ export class View extends React.Component {
 
 	play = i => {
 		var url = this.state.songs[i].url;
-		this.audio.src = url;
+		this.audio.src = "https://assets.breatheco.de/apis/sound/" + url;
 		this.audio.play();
 		this.playButton.style.display = "none";
 		this.pauseButton.style.display = "inline-block";
@@ -60,16 +45,21 @@ export class View extends React.Component {
 	render() {
 		const liList = this.state.songs.map((song, index) => {
 			return (
-				<li key={index} onClick={() => this.change(index)}>
-					<span>{index + 1}</span>
-					<span>{song.title}</span>
+				<li
+					className="body"
+					key={index}
+					onClick={() => this.play(index)}>
+					<div className="row">
+						<span>{index + 1}</span>
+						<span>{song.name}</span>
+					</div>
 				</li>
 			);
 		});
 
 		const audioPlayer = (
 			<>
-				<div>
+				<div className="page">
 					<button
 						onClick={() => this.play(this.state.currentIndex - 1)}>
 						<i className="fa fa-step-backward" />
@@ -90,15 +80,15 @@ export class View extends React.Component {
 					</button>
 				</div>
 
-				<audio contols ref={element => (this.audio = element)} />
+				<audio ref={element => (this.audio = element)} />
 			</>
 		);
 
 		return (
-			<>
+			<div className="wholePage">
 				{audioPlayer}
-				<ul>{liList}</ul>
-			</>
+				<ul className="allRows">{liList}</ul>
+			</div>
 		);
 	}
 }
