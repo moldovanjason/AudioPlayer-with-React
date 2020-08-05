@@ -4,6 +4,9 @@ import React from "react";
 export class View extends React.Component {
 	constructor() {
 		super();
+
+		this.audio = null;
+
 		this.state = {
 			currentIndex: 0,
 			songs: [
@@ -32,9 +35,27 @@ export class View extends React.Component {
 		};
 	}
 
-	async change(i) {
-		await this.setState({ currentIndex: i });
+	changeTrack(i) {
+		this.setState({ currentIndex: i });
+		this.audio.current.play();
+		this.audio.current.pause();
+		this.audio.current.skip();
 	}
+
+	play = i => {
+		var url = this.state.songs[i].url;
+		this.audio.src = url;
+		this.audio.play();
+		this.playButton.style.display = "none";
+		this.pauseButton.style.display = "inline-block";
+		this.setState({ currentIndex: i });
+	};
+
+	pause = () => {
+		this.audio.pause();
+		this.pauseButton.style.display = "none";
+		this.playButton.style.display = "inline-block";
+	};
 
 	render() {
 		const liList = this.state.songs.map((song, index) => {
@@ -45,14 +66,37 @@ export class View extends React.Component {
 				</li>
 			);
 		});
+
+		const audioPlayer = (
+			<>
+				<div>
+					<button
+						onClick={() => this.play(this.state.currentIndex - 1)}>
+						<i className="fa fa-step-backward" />
+					</button>
+					<button
+						ref={element => (this.playButton = element)}
+						onClick={() => this.play(this.state.currentIndex)}>
+						<i className="fa fa-play " aria-hidden="true" />
+					</button>
+					<button
+						ref={element => (this.pauseButton = element)}
+						onClick={() => this.pause()}>
+						<i className="fa fa-pause" />
+					</button>
+					<button
+						onClick={() => this.play(this.state.currentIndex + 1)}>
+						<i className="fa fa-step-forward" />
+					</button>
+				</div>
+
+				<audio contols ref={element => (this.audio = element)} />
+			</>
+		);
+
 		return (
 			<>
-				<audio controls>
-					<source
-						src={this.state.songs[this.state.currentIndex].url}
-						type="audio/mp3"
-					/>
-				</audio>
+				{audioPlayer}
 				<ul>{liList}</ul>
 			</>
 		);
