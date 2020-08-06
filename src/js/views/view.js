@@ -46,7 +46,10 @@ export class View extends React.Component {
 		const liList = this.state.songs.map((song, index) => {
 			return (
 				<li
-					className="body"
+					// Make class {dynamic} with condional
+					className={
+						this.state.currentIndex == index ? "active" : "body"
+					}
 					key={index}
 					onClick={() => this.play(index)}>
 					<div className="row">
